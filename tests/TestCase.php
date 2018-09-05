@@ -48,5 +48,7 @@ abstract class TestCase extends OrchestraTestCase
 			$table->string('email');
 			$table->string('name');
 		});
+
+		$this->artisan('migrate', ['--database' => 'testbench']);
 	}
 }
