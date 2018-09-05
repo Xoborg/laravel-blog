@@ -2,6 +2,7 @@
 
 namespace Xoborg\LaravelBlog\Tests;
 
+use Illuminate\Database\Schema\Blueprint;
 use \Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class TestCase extends OrchestraTestCase
@@ -9,7 +10,7 @@ abstract class TestCase extends OrchestraTestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->setUpDatabase();
+		$this->setUpDatabase($this->app);
 	}
 
 	/**
@@ -40,8 +41,12 @@ abstract class TestCase extends OrchestraTestCase
 		];
 	}
 
-	public function setUpDatabase()
+	public function setUpDatabase($app)
 	{
-
+		$app['db']->connection()->getSchemaBuilder()->create('users', function (Blueprint $table) {
+			$table->increments('id');
+			$table->string('email');
+			$table->string('name');
+		});
 	}
 }
