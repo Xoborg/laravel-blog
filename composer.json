@@ -1,0 +1,49 @@
+{
+  "name": "xoborg/laravel-blog",
+  "description": "A simple blog package for Laravel",
+  "keywords": [
+	"xoborg",
+	"laravel",
+	"blog"
+  ],
+  "homepage": "https://github.com/Xoborg/laravel-blog",
+  "license": "MIT",
+  "authors": [
+	{
+	  "name": "Carlos Rodríguez",
+	  "email": "carlosrodriguez@xoborg.com",
+	  "homepage": "http://xoborg.com",
+	  "role": "Developer"
+	}
+  ],
+  "require": {
+	"php": "^7.1"
+  },
+  "require-dev": {
+	"phpunit/phpunit": "^7.0",
+	"orchestra/testbench": "~3.6|~3.7"
+  },
+  "autoload": {
+	"psr-4": {
+	  "Xoborg\\LaravelBlog\\": "src"
+	}
+  },
+  "autoload-dev": {
+	"psr-4": {
+	  "Xoborg\\LaravelBlog\\Tests\\": "tests"
+	}
+  },
+  "scripts": {
+	"test": "vendor/bin/phpunit"
+  },
+  "config": {
+	"sort-packages": true
+  },
+  "extra": {
+	"laravel": {
+	  "providers": [
+		"Xoborg\\LaravelBlog\\LaravelBlogServiceProvider"
+	  ]
+	}
+  }
+}
