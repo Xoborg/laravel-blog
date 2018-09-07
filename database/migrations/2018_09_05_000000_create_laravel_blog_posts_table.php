@@ -22,7 +22,7 @@ class CreateLaravelBlogPostsTable extends Migration
 			$table->boolean('published')->default(false);
 			$table->unsignedInteger('author_id');
 			$table->foreign('author_id')
-				->references('id')->on('laravel_blog_authors');
+				->references('id')->on('laravel_blog_authors')->onDelete('cascade');
 			$table->timestamps();
 		});
 	}
