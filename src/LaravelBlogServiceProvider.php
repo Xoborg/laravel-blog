@@ -15,7 +15,7 @@ class LaravelBlogServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		$this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-		$this->loadRoutesFrom(__DIR__.'/routes.php');
+		$this->loadRoutesFrom(__DIR__.'/../routes/laravelBlog.php');
 
 		if ($this->app->runningInConsole()) {
 			$this->commands([
