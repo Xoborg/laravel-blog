@@ -4,6 +4,7 @@ namespace Xoborg\LaravelBlog\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Xoborg\LaravelBlog\Models\Author;
 use Xoborg\LaravelBlog\Models\Post;
 
 class PostController extends Controller
@@ -15,11 +16,16 @@ class PostController extends Controller
 	public function store(Request $request)
 	{
 		$validated = $request->validate([
-			'title' => 'required',
-			'content' => 'required'
+			'title' => 'required|max:60|unique:laravel_blog_posts',
+			'description' => 'required|max:250',
+			'content' => 'required',
+			'published' => 'boolean'
 		]);
 
-		Post::create($validated);
+		Author::where('user_id', $request->user()->id)
+			->firstOrFail()
+			->posts()
+			->create($validated);
 
 		return response()->redirectToRoute('laravel_blog.backend.post.index')
 			->with('status', 'Post created.');
@@ -34,8 +40,10 @@ class PostController extends Controller
 	public function update(Request $request, Post $post)
 	{
 		$validated = $request->validate([
-			'title' => 'required',
-			'content' => 'required'
+			'title' => 'required|max:60|unique:laravel_blog_posts',
+			'description' => 'required|max:250',
+			'content' => 'required',
+			'published' => 'boolean'
 		]);
 
 		$post->update($validated);

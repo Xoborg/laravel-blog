@@ -2,7 +2,6 @@
 
 namespace Xoborg\LaravelBlog\Models;
 
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Author extends Model
@@ -13,8 +12,13 @@ class Author extends Model
 
 	protected $table = 'laravel_blog_authors';
 
-	public function users()
+	public function user()
 	{
-		return $this->hasMany(User::class);
+		return $this->belongsTo(config('auth.providers.users.model'));
+	}
+
+	public function posts()
+	{
+		return $this->hasMany(Post::class);
 	}
 }

@@ -3,7 +3,7 @@
 namespace Xoborg\LaravelBlog\Tests\Backend;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Xoborg\LaravelBlog\Models\Post;
+use Xoborg\LaravelBlog\Models\Author;
 use Xoborg\LaravelBlog\Tests\TestCase;
 use Xoborg\LaravelBlog\Tests\User;
 
@@ -15,12 +15,20 @@ class PostControllerTest extends TestCase
 	 * @var User
 	 */
 	private $user;
+	/**
+	 * @var Author
+	 */
+	private $author;
 
 	public function setUp()
 	{
 		parent::setUp();
 
 		$this->user = User::create(['email' => 'test@user.com', 'name' => 'Test user']);
+
+		$this->author = Author::create([
+			'user_id' => $this->user->id
+		]);
 	}
 
 	/** @test */
@@ -30,7 +38,9 @@ class PostControllerTest extends TestCase
 
 		$post = [
 			'title' => 'Sample title',
-			'content' => 'Sample content'
+			'description' => 'Sample post',
+			'content' => 'Sample content',
+			'published' => '1'
 		];
 
 		$response = $this->from(route('laravel_blog.backend.post.create'))
@@ -38,6 +48,8 @@ class PostControllerTest extends TestCase
 
 		$response->assertRedirect(route('laravel_blog.backend.post.index'))
 			->assertSessionHas('status', 'Post created.');
+
+		$post['slug'] = str_slug($post['title']);
 
 		$this->assertDatabaseHas('laravel_blog_posts', $post);
 	}
@@ -65,17 +77,24 @@ class PostControllerTest extends TestCase
 	{
 		$this->actingAs($this->user);
 
-		$post = Post::create([
-			'title' => 'Sample title',
-			'content' => 'Sample content'
-		]);
+		$post = $this->author
+			->posts()
+			->create([
+				'title' => 'Sample title',
+				'content' => 'Sample content',
+				'description' => 'Post description',
+				'author_id' => $this->author->id
+			]);
 
 		$post->title = 'Title';
+		$post->published = true;
 
 		$response = $this->from(route('laravel_blog.backend.post.edit', compact('post')))
 			->put(route('laravel_blog.backend.post.update', compact('post')), [
 				'title' => $post->title,
-				'content' => $post->content
+				'content' => $post->content,
+				'description' => $post->description,
+				'published' => $post->published
 			]);
 
 		$response->assertRedirect(route('laravel_blog.backend.post.index'))
@@ -84,7 +103,8 @@ class PostControllerTest extends TestCase
 		$this->assertDatabaseHas('laravel_blog_posts', [
 			'id' => $post->id,
 			'title' => $post->title,
-			'content' => $post->content
+			'content' => $post->content,
+			'slug' => str_slug($post->title)
 		]);
 	}
 
@@ -93,10 +113,14 @@ class PostControllerTest extends TestCase
 	{
 		$this->actingAs($this->user);
 
-		$post = Post::create([
-			'title' => 'Sample title',
-			'content' => 'Sample content'
-		]);
+		$post = $this->author
+			->posts()
+			->create([
+				'title' => 'Sample title',
+				'content' => 'Sample content',
+				'description' => 'Post description',
+				'author_id' => $this->author->id
+			]);
 
 		$response = $this->from(route('laravel_blog.backend.post.edit', compact('post')))
 			->get(route('laravel_blog.backend.post.destroy', compact('post')));
