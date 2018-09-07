@@ -105,7 +105,7 @@ class LaravelBlogCommand extends Command
 				return $this->error('                                             ');
 			}
 
-			$author = Author::find($userId);
+			$author = Author::where('user_id', $userId)->first();
 
 			if (!$author) {
 				$this->error('                             ');
