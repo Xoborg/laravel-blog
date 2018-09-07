@@ -2,7 +2,9 @@
 
 namespace Xoborg\LaravelBlog;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Xoborg\LaravelBlog\Console\Commands\LaravelBlogCommand;
 
 class LaravelBlogServiceProvider extends ServiceProvider
 {
@@ -13,6 +15,12 @@ class LaravelBlogServiceProvider extends ServiceProvider
 	{
 		$this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 		$this->loadRoutesFrom(__DIR__.'/routes.php');
+
+		if ($this->app->runningInConsole()) {
+			$this->commands([
+				LaravelBlogCommand::class
+			]);
+		}
 	}
 
 	/**

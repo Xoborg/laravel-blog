@@ -28,6 +28,9 @@ abstract class TestCase extends OrchestraTestCase
 			'database' => ':memory:',
 			'prefix'   => '',
 		]);
+
+		// Use test User model for users provider
+		$app['config']->set('auth.providers.users.model', User::class);
 	}
 
 	/**
