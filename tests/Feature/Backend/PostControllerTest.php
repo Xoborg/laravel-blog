@@ -1,13 +1,13 @@
 <?php
 
-namespace Xoborg\LaravelBlog;
+namespace Xoborg\LaravelBlog\Tests\Backend;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Xoborg\LaravelBlog\Models\Post;
 use Xoborg\LaravelBlog\Tests\TestCase;
 use Xoborg\LaravelBlog\Tests\User;
 
-class PostTest extends TestCase
+class PostControllerTest extends TestCase
 {
 	use RefreshDatabase;
 
