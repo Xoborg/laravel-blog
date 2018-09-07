@@ -5,6 +5,7 @@ namespace Xoborg\LaravelBlog;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Xoborg\LaravelBlog\Console\Commands\LaravelBlogCommand;
+use Xoborg\LaravelBlog\Models\Author;
 
 class LaravelBlogServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,10 @@ class LaravelBlogServiceProvider extends ServiceProvider
 				LaravelBlogCommand::class
 			]);
 		}
+
+		Gate::define('view-laravel-blog-dashboard', function ($user) {
+			return Author::where('user_id', $user->id)->exists();
+		});
 	}
 
 	/**
