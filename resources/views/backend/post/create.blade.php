@@ -1,5 +1,11 @@
 @extends('laravel-blog::backend.layout')
 
+@section('scripts')
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/0.12.0/trix.css">
+	<script type="text/javascript" src="https://unpkg.com/trix@0.12.0/dist/trix.js"></script>
+@endsection
+
+
 @section('content')
 	<div class="flex justify-between items-center mb-10">
 		<h1 class="font-bold text-grey-darker tracking-wide uppercase">New post</h1>
@@ -19,9 +25,10 @@
 		<label for="title" class="block mb-2">Title</label>
 		<input type="text" name="title" id="title" maxlength="60" class="border-2 border-grey block mb-4 outline-none p-3 rounded w-full focus:border-green{{ $errors->has('title') ? ' border-red' : '' }}" value="{{ old('title') }}">
 		<label for="description" class="block mb-2">Description</label>
-		<input type="text" name="description" id="description" maxlength="250" class="border-2 border-grey block mb-4 outline-none p-3 resize-none rounded w-full focus:border-green{{ $errors->has('title') ? ' border-red' : '' }}">
+		<input type="text" name="description" id="description" maxlength="250" class="border-2 border-grey block mb-4 outline-none p-3 resize-none rounded w-full focus:border-green{{ $errors->has('title') ? ' border-red' : '' }}" value="{{ old('description') }}">
 		<label for="content" class="block mb-2">Content</label>
-		<textarea name="content" id="content" class="border-2 border-grey block mb-4 outline-none p-3 resize-none rounded w-full focus:border-green{{ $errors->has('title') ? ' border-red' : '' }}" rows="5"></textarea>
+		<input name="content" id="content" type="hidden" value="{{ old('content') }}">
+		<trix-editor input="content" class="trix-content border-2 border-grey block mb-4 outline-none p-3 resize-none rounded w-full focus:border-green{{ $errors->has('title') ? ' border-red' : '' }}" style="min-height: 320px;"></trix-editor>
 		<div class="flex items-center justify-end">
 			<div class="mr-6">
 				<label>

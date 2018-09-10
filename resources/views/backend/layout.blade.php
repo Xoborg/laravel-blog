@@ -6,6 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>{{ $title }}</title>
 	<link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+	@yield('scripts')
 </head>
 <body class="bg-grey-lighter border-t-4 border-green font-sans text-base text-black">
 	<div class="bg-white mb-12 p-4">
