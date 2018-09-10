@@ -43,10 +43,10 @@ class PostImageControllerTest extends TestCase
 			'image' => $file
 		]);
 
-		Storage::disk('public')->assertExists('img/blog/'.$file->hashName());
+		Storage::disk('public')->assertExists('img/blog/tmp/'.$file->hashName());
 
 		$response->assertOk()
 			->assertSeeText(Storage::disk('public')
-				->url('img/blog/'.$file->hashName()));
+				->url('img/blog/tmp/'.$file->hashName()));
 	}
 }

@@ -5,7 +5,7 @@
 	<script type="text/javascript" src="https://unpkg.com/trix@0.12.0/dist/trix.js"></script>
 	<script type="text/javascript">
 		var csrf = "{{ csrf_token() }}";
-		var baseUrl = "{{ route('laravel_blog.backend.index') }}";
+		var baseUrl = "{{ route('laravel_blog.backend.index') }}/";
 	</script>
 	<script type="text/javascript" src="{{ asset('vendor/laravel-blog/js/trix-image-upload.js') }}"></script>
 @endsection
@@ -25,7 +25,7 @@
 			</ul>
 		</div>
 	@endif
-	<form action="{{ route('laravel_blog.backend.post.update', compact('post')) }}" method="post">
+	<form id="formPost" action="{{ route('laravel_blog.backend.post.update', compact('post')) }}" method="post">
 		{{ @csrf_field()  }}
 		@method('PUT')
 		<label for="title" class="block mb-2">Title</label>
@@ -34,17 +34,20 @@
 		<input type="text" name="description" id="description" maxlength="250" class="border-2 border-grey block mb-4 outline-none p-3 resize-none rounded w-full focus:border-green{{ $errors->has('description') ? ' border-red' : '' }}" value="{{ old('description', $post->description) }}">
 		<label for="content" class="block mb-2">Content</label>
 		<input name="content" id="content" type="hidden" value="{{ old('content', $post->content) }}">
-		<trix-editor input="content" class="trix-content border-2 border-grey block mb-4 outline-none p-3 resize-none rounded w-full focus:border-green{{ $errors->has('content') ? ' border-red' : '' }}" style="min-height: 320px;"></trix-editor>
-		<div class="flex items-center justify-end">
-			<div class="mr-6">
-				<label>
-					<select name="published" id="published">
-						<option value="1">Published</option>
-						<option value="0">Not published</option>
-					</select>
-				</label>
+		<trix-editor input="content" class="trix-content border-2 border-grey block mb-10 outline-none p-3 resize-none rounded w-full focus:border-green{{ $errors->has('content') ? ' border-red' : '' }}" style="min-height: 320px;"></trix-editor>
+		<div class="flex justify-between">
+			<a href="{{ route('laravel_blog.backend.post.destroy', compact('post')) }}" class="border border-red no-underline p-3 rounded text-red-dark hover:bg-red hover:text-white" title="Delete">Delete</a>
+			<div class="flex items-center justify-end">
+				<div class="mr-6">
+					<label>
+						<select name="published" id="published">
+							<option value="1">Published</option>
+							<option value="0">Not published</option>
+						</select>
+					</label>
+				</div>
+				<button type="submit" class="bg-green border-0 no-underline p-3 rounded text-white hover:bg-green-light">Save changes</button>
 			</div>
-			<button type="submit" class="bg-green border-0 no-underline p-3 rounded text-white hover:bg-green-light">Save changes</button>
 		</div>
 	</form>
 @endsection

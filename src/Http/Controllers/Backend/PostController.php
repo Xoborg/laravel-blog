@@ -4,6 +4,7 @@ namespace Xoborg\LaravelBlog\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Xoborg\LaravelBlog\Models\Author;
 use Xoborg\LaravelBlog\Models\Post;
@@ -50,10 +51,27 @@ class PostController extends Controller
 			'published' => 'required|boolean'
 		]);
 
-		Author::where('user_id', $request->user()->id)
+		$post = Author::where('user_id', $request->user()->id)
 			->firstOrFail()
 			->posts()
 			->create($validated);
+
+		if ($request->input('image')) {
+			$request->validate([
+				'image' => 'array'
+			]);
+
+			collect($request->input('image'))->each(function ($image) use ($post) {
+				if (strpos($post->content, $image) === false) {
+					Storage::disk('public')->delete('img/blog/tmp/'.basename($image));
+				} else {
+					Storage::disk('public')->move('img/blog/tmp/'.basename($image), 'img/blog/'.$post->id.'/'.basename($image));
+				}
+			});
+
+			$post->content = str_replace('/img/blog/tmp/', '/img/blog/'.$post->id.'/', $post->content);
+			$post->save();
+		}
 
 		return response()->redirectToRoute('laravel_blog.backend.post.index')
 			->with('status', 'Post created.');
@@ -86,6 +104,23 @@ class PostController extends Controller
 
 		$post->update($validated);
 
+		if ($request->input('image')) {
+			$request->validate([
+				'image' => 'array'
+			]);
+
+			collect($request->input('image'))->each(function ($image) use ($post) {
+				if (strpos($post->content, $image) === false) {
+					Storage::disk('public')->delete('img/blog/tmp/'.basename($image));
+				} else {
+					Storage::disk('public')->move('img/blog/tmp/'.basename($image), 'img/blog/'.$post->id.'/'.basename($image));
+				}
+			});
+
+			$post->content = str_replace('/img/blog/tmp/', '/img/blog/'.$post->id.'/', $post->content);
+			$post->save();
+		}
+
 		return response()->redirectToRoute('laravel_blog.backend.post.index')
 			->with('status', 'Post updated.');
 	}
@@ -93,6 +128,8 @@ class PostController extends Controller
 	public function destroy(Post $post)
 	{
 		$post->delete();
+
+		Storage::disk('public')->deleteDirectory('img/blog/'.$post->id);
 
 		return response()->redirectToRoute('laravel_blog.backend.post.index')
 			->with('status', 'Post deleted.');

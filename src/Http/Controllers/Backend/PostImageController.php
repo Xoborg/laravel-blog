@@ -20,8 +20,8 @@ class PostImageController extends Controller
 
 		$image = $request->file('image');
 
-		$image->store('img/blog', 'public');
+		$image->store('img/blog/tmp', 'public');
 
-		return response(Storage::disk('public')->url('img/blog/'.$image->hashName()));
+		return response(Storage::disk('public')->url('img/blog/tmp/'.$image->hashName()));
 	}
 }

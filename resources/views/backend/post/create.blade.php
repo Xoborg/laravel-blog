@@ -5,7 +5,7 @@
 	<script type="text/javascript" src="https://unpkg.com/trix@0.12.0/dist/trix.js"></script>
 	<script type="text/javascript">
 		var csrf = "{{ csrf_token() }}";
-		var baseUrl = "{{ route('laravel_blog.backend.index') }}";
+		var baseUrl = "{{ route('laravel_blog.backend.index') }}/";
 	</script>
 	<script type="text/javascript" src="{{ asset('vendor/laravel-blog/js/trix-image-upload.js') }}"></script>
 @endsection
@@ -25,7 +25,7 @@
 			</ul>
 		</div>
 	@endif
-	<form action="{{ route('laravel_blog.backend.post.store') }}" method="post">
+	<form id="formPost" action="{{ route('laravel_blog.backend.post.store') }}" method="post">
 		{{ @csrf_field()  }}
 		<label for="title" class="block mb-2">Title</label>
 		<input type="text" name="title" id="title" maxlength="60" class="border-2 border-grey block mb-4 outline-none p-3 rounded w-full focus:border-green{{ $errors->has('title') ? ' border-red' : '' }}" value="{{ old('title') }}">

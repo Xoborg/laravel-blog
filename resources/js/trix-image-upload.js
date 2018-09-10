@@ -6,38 +6,56 @@
 		size: false
 	};
 
+	document.addEventListener("trix-file-accept", function (event) {
+		if (!event.file || !event.file.type.startsWith("image/")) {
+			event.preventDefault();
+		}
+	});
+
 	document.addEventListener("trix-attachment-add", function(event) {
-		var attachment;
-		attachment = event.attachment;
+		var attachment = event.attachment;
+
 		if (attachment.file) {
-			return uploadAttachment(attachment);
+			if (attachment.file.type.startsWith("image/")) {
+				return uploadAttachment(attachment);
+			} else {
+				event.preventDefault();
+			}
 		}
 	});
 
 	uploadAttachment = function(attachment) {
 		var file, form, xhr;
 		file = attachment.file;
+
 		form = new FormData;
 		form.append("Content-Type", file.type);
 		form.append("image", file);
 		xhr = new XMLHttpRequest;
 		xhr.open("POST", baseUrl + "post-image", true);
 		xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
-		xhr.upload.onprogress = function(event) {
-			var progress;
-			progress = event.loaded / event.total * 100;
+
+		xhr.upload.onprogress = function (event) {
+			var progress  = event.loaded / event.total * 100;
 			return attachment.setUploadProgress(progress);
 		};
-		xhr.onload = function() {
-			var href, url;
+
+		xhr.onload = function () {
 			if (xhr.status === 200) {
-				url = href = xhr.responseText;
+				var input = document.createElement("INPUT");
+				input.setAttribute("name", "image[]");
+				input.setAttribute("type", "hidden");
+				input.setAttribute("value", xhr.responseText);
+				document.getElementById("formPost").appendChild(input);
+
 				return attachment.setAttributes({
-					url: url,
-					href: href
+					url: xhr.responseText,
+					href: xhr.responseText
 				});
 			}
 		};
+
 		return xhr.send(form);
+
 	};
 }).call(this);
