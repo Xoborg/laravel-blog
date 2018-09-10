@@ -1,6 +1,6 @@
 <?php
 
-namespace Xoborg\LaravelBlog\Tests\Backend;
+namespace Xoborg\LaravelBlog\Tests\Feature\Backend;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Xoborg\LaravelBlog\Models\Author;

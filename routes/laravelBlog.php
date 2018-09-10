@@ -7,10 +7,14 @@
 			Route::get('/', 'Xoborg\LaravelBlog\Http\Controllers\Backend\PostController@index')->name('laravel_blog.backend.post.index');
 			Route::get('new', 'Xoborg\LaravelBlog\Http\Controllers\Backend\PostController@create')->name('laravel_blog.backend.post.create');
 			Route::post('new', 'Xoborg\LaravelBlog\Http\Controllers\Backend\PostController@store')->name('laravel_blog.backend.post.store');
-			Route::get('{post}/edit')->name('laravel_blog.backend.post.edit');
+			Route::get('{post}/edit', 'Xoborg\LaravelBlog\Http\Controllers\Backend\PostController@edit')->name('laravel_blog.backend.post.edit');
 			Route::put('{post}/edit', 'Xoborg\LaravelBlog\Http\Controllers\Backend\PostController@update')->name('laravel_blog.backend.post.update');
 			Route::get('{post}/delete', 'Xoborg\LaravelBlog\Http\Controllers\Backend\PostController@destroy')->name('laravel_blog.backend.post.destroy');
 		});
+
+		Route::post('post-image', 'Xoborg\LaravelBlog\Http\Controllers\Backend\PostImageController@store')
+			->middleware(['web','can:view-laravel-blog-dashboard'])
+			->name('laravel_blog.backend.post_image.store');
 	});
 
 	Route::group(['prefix' => 'blog', 'middleware' => 'bindings'], function () {

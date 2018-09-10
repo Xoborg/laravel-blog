@@ -4,6 +4,7 @@ namespace Xoborg\LaravelBlog\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Validation\Rule;
 use Xoborg\LaravelBlog\Models\Author;
 use Xoborg\LaravelBlog\Models\Post;
 
@@ -46,7 +47,7 @@ class PostController extends Controller
 			'title' => 'required|max:60|unique:laravel_blog_posts',
 			'description' => 'required|max:250',
 			'content' => 'required',
-			'published' => 'boolean'
+			'published' => 'required|boolean'
 		]);
 
 		Author::where('user_id', $request->user()->id)
@@ -58,6 +59,12 @@ class PostController extends Controller
 			->with('status', 'Post created.');
 	}
 
+	public function edit(Post $post)
+	{
+		$title = config('app.name').' - Blog - New post';
+
+		return view('laravel-blog::backend.post.edit', compact('post', 'title'));
+	}
 
 	/**
 	 * @param Request $request
@@ -67,10 +74,14 @@ class PostController extends Controller
 	public function update(Request $request, Post $post)
 	{
 		$validated = $request->validate([
-			'title' => 'required|max:60|unique:laravel_blog_posts',
+			'title' => [
+				'required',
+				'max:60',
+				Rule::unique('laravel_blog_posts')->ignore($post->id)
+			],
 			'description' => 'required|max:250',
 			'content' => 'required',
-			'published' => 'boolean'
+			'published' => 'required|boolean'
 		]);
 
 		$post->update($validated);
