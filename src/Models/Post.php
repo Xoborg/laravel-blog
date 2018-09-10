@@ -29,4 +29,9 @@ class Post extends Model
 	{
 		return $this->belongsTo(Author::class);
 	}
+
+	public function publishedString(): string
+	{
+		return $this->published ? 'Published' : 'Not published';
+	}
 }

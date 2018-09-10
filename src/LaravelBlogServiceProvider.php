@@ -16,6 +16,11 @@ class LaravelBlogServiceProvider extends ServiceProvider
 	{
 		$this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 		$this->loadRoutesFrom(__DIR__.'/../routes/laravelBlog.php');
+		$this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-blog');
+
+		$this->publishes([
+			__DIR__.'/path/to/views' => resource_path('views/vendor/laravel-blog'),
+		]);
 
 		if ($this->app->runningInConsole()) {
 			$this->commands([

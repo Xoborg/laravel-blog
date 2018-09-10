@@ -10,6 +10,33 @@ use Xoborg\LaravelBlog\Models\Post;
 class PostController extends Controller
 {
 	/**
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function index()
+	{
+		$title = config('app.name').' - Blog - Posts';
+
+		$posts = Post::with([
+			'author',
+			'author.user:id,name'
+		])
+			->latest()
+			->simplePaginate(15);
+
+		return view('laravel-blog::backend.post.index', compact('title', 'posts'));
+	}
+
+	/**
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function create()
+	{
+		$title = config('app.name').' - Blog - New post';
+
+		return view('laravel-blog::backend.post.create', compact('title'));
+	}
+
+	/**
 	 * @param Request $request
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
