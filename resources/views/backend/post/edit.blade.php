@@ -41,8 +41,8 @@
 				<div class="mr-6">
 					<label>
 						<select name="published" id="published">
-							<option value="1">Published</option>
-							<option value="0">Not published</option>
+							<option value="1"{{ old('published', $post->published) == 1 ? ' selected' : '' }}>Published</option>
+							<option value="0"{{ old('published', $post->published) == 0 ? ' selected' : '' }}>Not published</option>
 						</select>
 					</label>
 				</div>
