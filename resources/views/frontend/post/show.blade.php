@@ -11,7 +11,7 @@
 	<div class="max-w-lg mx-auto">
 		<p class="text-grey-darker">< <a href="{{ route('laravel_blog.frontend.post.index') }}" class="no-underline text-grey-darker hover:underline" title="Blog">Blog</a></p>
 		<h1 class="mb-2 text-3xl text-center md:text-5xl">{{ $post->title }}</h1>
-		<p class="mb-6 text-center text-grey-darker md:mb-12">By {{ $post->author->user->name }} @ {{ $post->updated_at->format('d/m/Y') }}</p>
+		<p class="mb-6 text-center text-grey-darker md:mb-12">By {{ $post->author->user->name }} @ {{ $post->updated_at->format(config('blog.date.format')) }}</p>
 		<div class="bg-white p-8 rounded md:text-lg">
 			{!! $post->content !!}
 		</div>

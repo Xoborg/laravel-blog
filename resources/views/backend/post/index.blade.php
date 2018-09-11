@@ -17,7 +17,7 @@
 			<a href="{{ route('laravel_blog.backend.post.edit', compact('post')) }}" class="flex items-center no-underline p-4 text-black hover:bg-grey-lightest" title="{{ $post->title }}">
 				<p class="flex-grow truncate">{{ $post->title }}</p>
 				<p class="flex-no-shrink text-center truncate w-48">{{ $post->author->user->name }}</p>
-				<p class="flex-no-shrink text-center w-32">{{ $post->updated_at->format('d/m/Y') }}</p>
+				<p class="flex-no-shrink text-center w-32">{{ $post->updated_at->format(config('blog.date.format')) }}</p>
 				<p class="flex-no-shrink text-center w-32"><span class="inline-block p-2 rounded {{ $post->published ? 'bg-green-lightest text-green-darkest' : 'bg-red-lightest text-red-darker' }}">{{ $post->publishedString() }}</span></p>
 			</a>
 		@endforeach
