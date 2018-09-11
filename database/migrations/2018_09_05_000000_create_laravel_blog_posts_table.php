@@ -15,8 +15,14 @@ class CreateLaravelBlogPostsTable extends Migration
 	{
 		Schema::create('laravel_blog_posts', function (Blueprint $table) {
 			$table->increments('id');
-			$table->string('title');
+			$table->string('title')->unique();
+			$table->string('description');
 			$table->text('content');
+			$table->string('slug')->unique();
+			$table->boolean('published')->default(false);
+			$table->unsignedInteger('author_id');
+			$table->foreign('author_id')
+				->references('id')->on('laravel_blog_authors')->onDelete('cascade');
 			$table->timestamps();
 		});
 	}

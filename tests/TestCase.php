@@ -28,6 +28,17 @@ abstract class TestCase extends OrchestraTestCase
 			'database' => ':memory:',
 			'prefix'   => '',
 		]);
+
+		// Use test User model for users provider
+		$app['config']->set('auth.providers.users.model', User::class);
+
+		// Setup default filesystem disk
+		$app['config']->set('filesystems.disks.public', [
+			'driver' => 'local',
+			'root' => realpath(__DIR__.'/storage'),
+			'url' => env('APP_URL').'/storage',
+			'visibility' => 'public',
+		]);
 	}
 
 	/**

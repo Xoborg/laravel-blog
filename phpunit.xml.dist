@@ -16,10 +16,18 @@
 		<testsuite name="Unit">
 			<directory suffix="Test.php">./tests/Unit</directory>
 		</testsuite>
+
+		<testsuite name="Console">
+			<directory suffix="Test.php">./tests/Console</directory>
+		</testsuite>
 	</testsuites>
 	<filter>
 		<whitelist>
 			<directory suffix=".php">src/</directory>
 		</whitelist>
 	</filter>
+	<php>
+		<env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
+		<env name="APP_URL" value="http://laravel.blog"/>
+	</php>
 </phpunit>
