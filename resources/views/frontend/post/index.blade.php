@@ -11,13 +11,15 @@
 	<div class="max-w-md mx-auto">
 		<h1 class="mb-6 text-center md:mb-12">{{ config('app.name').' - Blog' }}</h1>
 		<div class="bg-white mb-6 p-8 rounded md:mb-12">
-			@foreach($posts as $post)
+			@forelse($posts as $post)
 				<div{!! !$loop->last ? ' class="border-b pb-6 mb-6"' : '' !!}>
 					<p class="font-light italic text-grey-dark text-sm">{{ $post->updated_at->format(config('blog.date.format')) }}</p>
 					<h3 class="mb-2"><a href="{{ route('laravel_blog.frontend.post.show', ['laravelBlogSlug' => $post->slug]) }}" class="no-underline text-2xl text-black hover:underline" title="{{ $post->title }}">{{ $post->title }}</a></h3>
 					<p>{{ $post->description }}</p>
 				</div>
-			@endforeach
+			@empty
+				<p>There aren't any post created.</p>
+			@endforelse
 		</div>
 		@if(($posts->onFirstPage() && $posts->hasMorePages()) || !$posts->onFirstPage())
 			<div class="text-center">
