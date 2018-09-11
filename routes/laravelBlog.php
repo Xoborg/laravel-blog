@@ -18,5 +18,10 @@
 	});
 
 	Route::group(['prefix' => 'blog', 'middleware' => 'bindings'], function () {
-		Route::get('/')->name('laravel_blog.frontend.post.index');
+		Route::get('/', 'Xoborg\LaravelBlog\Http\Controllers\Frontend\PostController@index')->name('laravel_blog.frontend.post.index');
+		Route::get('/{laravelBlogPostSlug}', 'Xoborg\LaravelBlog\Http\Controllers\Frontend\PostController@show')->name('laravel_blog.frontend.post.show');
+	});
+
+	Route::bind('laravelBlogPostSlug', function ($laravelBlogPostSlug) {
+		return \Xoborg\LaravelBlog\Models\Post::where([['published', true], ['slug', $laravelBlogPostSlug]])->first() ?? abort(404);
 	});

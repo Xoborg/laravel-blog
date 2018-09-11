@@ -125,6 +125,11 @@ class PostController extends Controller
 			->with('status', 'Post updated.');
 	}
 
+	/**
+	 * @param Post $post
+	 * @return \Illuminate\Http\RedirectResponse
+	 * @throws \Exception
+	 */
 	public function destroy(Post $post)
 	{
 		$post->delete();
