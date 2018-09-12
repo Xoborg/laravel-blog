@@ -23,7 +23,7 @@ class PostController extends Controller
 			'author.user:id,name'
 		])
 			->latest()
-			->simplePaginate(15);
+			->simplePaginate(config('blog.posts.per_page.backend'));
 
 		return view('laravel-blog::backend.post.index', compact('title', 'posts'));
 	}

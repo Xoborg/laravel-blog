@@ -52,6 +52,14 @@ You also can see an author list:
 php artisan laravel-blog:author --list
 ```
 
+### Posts images
+
+This package uses the [Trix](https://trix-editor.org/) editor, which has the ability to attach images to the posts. This images will be stored in the public disk so don't forget to execute the next command:
+
+```php
+php artisan storage:link
+```
+
 ### Customize the views
 
 If you want to customize the backend or frontend views of this package, publish the views files with the next command:

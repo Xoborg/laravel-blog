@@ -1,11 +1,20 @@
 <?php
 
 	return [
-		'date' => [
+		'posts' => [
+			'date' => [
+				/**
+				 * The date format that will be used to display posts dates
+				 */
+				'format' => 'd/m/Y'
+			],
 			/**
-			 * The date format that will be used to display posts dates
+			 * Posts per page
 			 */
-			'format' => 'd/m/Y'
+			'per_page' => [
+				'frontend' => 15,
+				'backend' => 15
+			],
 		],
 		'feed' => [
 			/**
