@@ -14,7 +14,7 @@ class PostController extends Controller
 	{
 		$posts = Post::where('published', true)
 			->latest()
-			->simplePaginate(5);
+			->simplePaginate(config('blog.posts.per_page.frontend'));
 
 		return view('laravel-blog::frontend.post.index', compact('posts'));
 	}
